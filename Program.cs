@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Text;
 namespace Assignment_1
 {
     class Program
@@ -13,34 +13,36 @@ namespace Assignment_1
             try
             {
                 int n = Convert.ToInt32(Console.ReadLine());
-                if (n > 0)
+                if (n > 0) // Entered value need to be greater than 0.
                     printTriangle(n);
                 else
                     Console.WriteLine("Enter a number greater than 0");
-            }
+            }// end of try
             catch
             {
-                Console.WriteLine("Incorrect Input");
+                Console.WriteLine("Incorrect Input");//The input is not an integer.
                 Console.ReadLine();
-            }
+            }//end of catch
             Console.WriteLine();
+
 
             //Question 2:
             Console.WriteLine("Q2 : Enter the number of terms in the Pell Series:");
             try
             {
                 int n2 = Convert.ToInt32(Console.ReadLine());
-                if (n2 > 0)
+                if (n2 > 0)// Entered value need to be greater than 0.
                     printPellSeries(n2);
                 else
                     Console.WriteLine("Enter a number greater than 0");
-            }
+            }//End of try
             catch
             {
-                Console.WriteLine("Incorrect Input");
+                Console.WriteLine("Incorrect Input");//The input is not an integer.
                 Console.ReadLine();
-            }
+            }//end of catch
             Console.WriteLine();
+
 
             //Question 3:
             Console.WriteLine("Q3 : Enter the number to check if squareSums exist:");
@@ -57,12 +59,24 @@ namespace Assignment_1
                     Console.WriteLine("No, the number cannot be expressed as a sum of squares of 2 integers");
                 }
                 Console.ReadLine();
-            }
+            }//end of try
             catch
             {
-                Console.WriteLine("Incorrect Input");
+                Console.WriteLine("Incorrect Input"); //The input is not an integer.
                 Console.ReadLine();
-            }
+            }//end of catch
+
+
+            //Question 5:            
+            List<string> emails = new List<string>();            
+            emails.Add("dis.email+bull@usf.com");            
+            emails.Add("dis.e.mail+bob.cathy@usf.com");            
+            emails.Add("disemail+david@us.f.com");
+            int ans5 = UniqueEmails(emails);            
+            Console.WriteLine("Q5");            
+            Console.WriteLine("The number of unique emails is " + ans5);
+            Console.ReadLine();
+
 
             //Quesiton 6:
             string[,] paths = new string[,] { { "London", "New York" }, { "New York", "Tampa" },
@@ -71,10 +85,40 @@ namespace Assignment_1
             Console.WriteLine("Q6");
             Console.WriteLine("Destination city is " + destination);
             Console.ReadLine();
-
         }
 
+        private static int UniqueEmails(List<string> emails)
+        {
+            try
+            {                // write your code here.   
+                string[] domain_name = new string[emails.Count];
+                string[] local_name = new string[emails.Count];
+                string[] final_list = new string[emails.Count];
+                int i,index=0;
+                for(i=0;i<emails.Count;i++)
+                {
+                    index = emails[i].IndexOf("@");
+                    local_name[i] = emails[i].Substring(0, index);
+                    domain_name[i] = emails[i].Substring(index + 1);
+                    if (local_name[i].Contains("+"))
+                    {
+                        index = local_name[i].IndexOf("+");
+                        local_name[i] = local_name[i].Remove(index);
+                    }
+                    local_name[i] = local_name[i].Replace(".", string.Empty);
 
+                    final_list[i] = local_name[i] + '@' + domain_name[i];
+                }
+
+                string[] unique = final_list.Distinct().ToArray();
+                return unique.Length;            
+            }// end of try            
+            catch (Exception e)            
+            {                
+                Console.WriteLine(e.Message);                
+                throw;            
+            }// end of catch        
+        }
         private static void printTriangle(int n)
         {
             int i, j, count;
